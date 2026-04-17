@@ -1,0 +1,91 @@
+public class Ej18 {
+
+    private static boolean lock = false;
+    private static boolean hayProducto = false; // indica si hay un producto disponible
+    private static int producto = 0; // el producto en si
+    private static int contador = 0; // contador para generar productos
+
+    // Test and Set: operacion atomica simulada
+    private static boolean testAndSet() {
+        boolean old = lock;
+        lock = true;
+        return old;
+    }
+
+    // =============================================
+    // CODIGO ANTERIOR (comentado):
+    // =============================================
+    // process productor
+    // {
+    // while (true) {
+    // if (var == 0) {
+    // var = 1;
+    // lock = true;
+    // } else {
+    // var = 0;
+    // lock = false;
+    // }
+    // }
+    // }
+    //
+    // process consumidor
+    // {
+    // while (true) {
+    // if (var == 1) {
+    // var = 0;
+    // lock = false;
+    // }
+    // }
+    // }
+    // =============================================
+
+    private static process productor
+    {
+        while (true) {
+            // 1. Espero hasta que no haya producto (espera activa)
+            while (hayProducto) {
+            }
+
+            // 2. Adquiero el lock (spinlock con testAndSet)
+            while (testAndSet()) {
+            }
+
+            // 3. Seccion critica: producir
+            if (!hayProducto) {
+                contador++;
+                producto = contador;
+                System.out.println("Productor produjo: " + producto);
+                hayProducto = true;
+            }
+
+            // 4. Libero el lock
+            lock = false;
+        }
+    }
+
+    private static process consumidor
+    {
+        while (true) {
+            // 1. Espero hasta que haya producto (espera activa)
+            while (!hayProducto) {
+            }
+
+            // 2. Adquiero el lock (spinlock con testAndSet)
+            while (testAndSet()) {
+            }
+
+            // 3. Seccion critica: consumir
+            if (hayProducto) {
+                System.out.println("Consumidor consumio: " + producto);
+                producto = 0;
+                hayProducto = false;
+            }
+
+            // 4. Libero el lock
+            lock = false;
+        }
+    }
+
+    public static void main(String[] args) {
+    }
+}
