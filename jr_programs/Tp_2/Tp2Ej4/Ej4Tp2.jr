@@ -1,0 +1,56 @@
+import java.util.*;
+
+public class Ej4Tp2 {
+    public sem mutets = 1;
+    public boolean lock = false;
+    public int compartido = 0; // 0 puede producir.
+    // P(mutex)= wait
+    // V(mutex)= signal
+
+    public boolean testAndSet() {
+        P(mutets); // Quiero exclusion mutua
+        boolean initial = lock;
+        lock = true;
+        V(mutets); // No quiero ma exclusion mutua
+        return initial;
+    }
+
+    public process productor
+    {
+        while (true) {
+            while (testAndSet()) {
+            } // Protocolo entrada, el test and set es atomico, entonces solo entraria uno
+              // solo mepa
+            if (compartido == 0) { // Seccion critica
+                Random rand = new Random();
+                int valorProducido = rand.nextInt(100);
+                System.out.println("Nuevo valor producido: " + valorProducido);
+                compartido = valorProducido;
+            } // Fin seccion critica
+            P(mutets);
+            lock = false; // Protocolo de salida
+            V(mutets);
+        }
+    }
+
+    public process consumidor
+    {
+        while (true) {
+            while (testAndSet()) {
+            } // Protocolo entrada, el test and set es atomico, entonces solo entraria uno
+              // solo mepa
+            if (compartido != 0) { // Seccion critica
+                System.out.println("Nuevo valor consumido: " + compartido);
+                compartido = 0;
+            } // Fin seccion critica
+            P(mutets);
+            lock = false; // Como el protocolo de salida, es una variable compartida, tambien tengo que
+                          // asegurar la exclusion mutua con el semaforo
+            V(mutets);
+        }
+    }
+
+    public static void main(String[] args) {
+        new Ej4Tp2();
+    }
+}

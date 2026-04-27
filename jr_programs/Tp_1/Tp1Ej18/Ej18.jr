@@ -7,11 +7,11 @@ public class Ej18 {
 
     // Test and Set: operacion atomica simulada
     private static boolean testAndSet() {
-        boolean old = lock;
+        boolean old = lock; //Guardo el valor actual de lock
         lock = true;
         return old;
     }
-
+ 
     // =============================================
     // CODIGO ANTERIOR (comentado):
     // =============================================
@@ -44,10 +44,12 @@ public class Ej18 {
         while (true) {
             // 1. Espero hasta que no haya producto (espera activa)
             while (hayProducto) {
+                //Espera activa para que no muera el thread
             }
 
             // 2. Adquiero el lock (spinlock con testAndSet)
             while (testAndSet()) {
+                //Espera a que lock sea falso 
             }
 
             // 3. Seccion critica: producir
@@ -68,10 +70,12 @@ public class Ej18 {
         while (true) {
             // 1. Espero hasta que haya producto (espera activa)
             while (!hayProducto) {
+                //Espera activa para que no muera el thread
             }
 
             // 2. Adquiero el lock (spinlock con testAndSet)
             while (testAndSet()) {
+                //Espera a que lock sea falso 
             }
 
             // 3. Seccion critica: consumir
