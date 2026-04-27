@@ -1,0 +1,41 @@
+public class ej13 {
+    private static int a = 10;
+    private static int b = 5;
+    private static int c = 4;
+    private static int d = 2;
+    private static int e = 6;
+    private static int f = 7;
+    private static int x;
+    private static int y;
+    private static int z;
+    private static double h;
+
+    public static process proceso1
+    {
+        x = 3 * a * b + 4;
+        System.out.println("x = " + x);
+    }
+
+    public static process proceso2
+    {
+        y = c - d;
+
+        System.out.println("y = " + y);
+    }
+
+    public static process proceso3
+    {
+        z = e - f;
+        System.out.println("z = " + z);
+    }
+
+    public static process proceso4
+    {
+        System.out.println("Mathpow" + Math.pow(y, z));
+        h = x / (Math.pow(y, z));
+        System.out.println("h = " + h);
+    }
+
+    public static void main(String[] args) {
+    }
+}

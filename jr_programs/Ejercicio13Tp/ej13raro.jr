@@ -1,0 +1,38 @@
+public class ej13 {
+    private static int a = 10;
+    private static int b = 5;
+    private static int c = 4;
+    private static int d = 2;
+    private static int e = 6;
+    private static int f = 7;
+    private static int x;
+    private static int y;
+    private static int z;
+    private static double h;
+
+public static process proceso1
+    {
+        x = 3 * a * b + 4;
+    }
+    public static process proceso2
+    {
+        y = c - d;
+    }
+    public static process proceso3
+    {
+        z = e - f;
+    }
+
+    public static void main(String[] args) {
+        try {
+            JR.registerQuiescenceAction(done);
+        } catch (edu.ucdavis.jr.QuiescenceRegistrationException ex) {
+        }
+    }
+
+    // Se ejecuta cuando p1, p2, p3 terminan
+    private static op void done() {
+        h = x / Math.pow(y, z);
+        System.out.println("h = " + h);
+    }
+}
