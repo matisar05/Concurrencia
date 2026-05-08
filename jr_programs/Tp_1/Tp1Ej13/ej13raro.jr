@@ -10,7 +10,7 @@ public class ej13 {
     private static int z;
     private static double h;
 
-public static process proceso1
+    public static process proceso1
     {
         x = 3 * a * b + 4;
     }

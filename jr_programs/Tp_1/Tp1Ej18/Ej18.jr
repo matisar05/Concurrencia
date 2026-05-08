@@ -12,33 +12,6 @@ public class Ej18 {
         return old;
     }
 
-    // =============================================
-    // CODIGO ANTERIOR (comentado):
-    // =============================================
-    // process productor
-    // {
-    // while (true) {
-    // if (var == 0) {
-    // var = 1;
-    // lock = true;
-    // } else {
-    // var = 0;
-    // lock = false;
-    // }
-    // }
-    // }
-    //
-    // process consumidor
-    // {
-    // while (true) {
-    // if (var == 1) {
-    // var = 0;
-    // lock = false;
-    // }
-    // }
-    // }
-    // =============================================
-
     private static process productor
     {
         while (true) {

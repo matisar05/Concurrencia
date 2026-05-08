@@ -7,7 +7,7 @@ import java.rmi.*;
 import java.io.Serializable;
 
 
-import java.util.Random;
+import java.util.*;
 
 public class Ejercicio17 extends java.lang.Object {
     { JRinit(); }
@@ -17,22 +17,26 @@ public class Ejercicio17 extends java.lang.Object {
         super();
         JRprocess();
     }
-    private static int[] miArreglo = new int[10];
-    
-    public static void llenarArreglo(int[] arr) {
+    private static int[] numeros = new int[10];
+    static {
         Random rand = new Random();
         // Begin Expr2
-        System.out.print("Arreglo generado: ");
-        JRLoop0: for (int i = 0; i < arr.length; i++) {
+        System.out.println("--- Cargando el arreglo ---");
+        JRLoop0: for (int i = 0; i < numeros.length; i++) {
             // Begin Expr2
-            arr[i] = rand.nextInt(100) + 1;
-            // Begin Expr2
-            System.out.print(arr[i] + " ");
+            numeros[i] = rand.nextInt(100);
+            if (i % 2 == 0) {
+                // Begin Expr2
+                System.out.println("Posicion " + i + " PAR cargada con: " + numeros[i]);
+            } else {
+                // Begin Expr2
+                System.out.println("Posicion " + i + " IMPAR cargada con: " + numeros[i]);
+            }
         }
         // Begin Expr2
-        System.out.println("\n-------------------------------");
+        System.out.println("--- Arreglo listo ---");
     }
-    static Op_ext.JRProxyOp JRget_op_mayorPares_voidTovoid()
+    public static Op_ext.JRProxyOp JRget_op_mayorPares_voidTovoid()
     {
         return op_mayorPares_voidTovoid;
     }
@@ -173,7 +177,7 @@ return null;
         } catch (Exception e) { throw new jrRuntimeError(e.toString());}
     }
     
-    static void mayorParesvoidTovoid(java.lang.Object [] JRargs) {
+    public static void mayorParesvoidTovoid(java.lang.Object [] JRargs) {
         ((Op_ext_.JRProxyOp)op_mayorPares_voidTovoid).call(jrvm.getTimestamp(), JRargs);
     }
     private static void mayorParesvoidTovoid(Op_ext.JRProxyOp retOp, Cap_ext fretOp, edu.ucdavis.jr.RemoteHandler handler, java.lang.Object [] JRargs)
@@ -181,17 +185,14 @@ return null;
         try    {
             {
                 int mayor = -1;
-                JRLoop1: for (int i = 0; i < miArreglo.length; i++) {
-                    if (miArreglo[i] % 2 == 0) {
-                        if (miArreglo[i] > mayor) {
-                            // Begin Expr2
-                            mayor = miArreglo[i];
-                        }
+                JRLoop1: for (int i = 0; i < numeros.length; i++) {
+                    if (i % 2 == 0) {
+                        if (mayor < numeros[i]) // Begin Expr2
+                        mayor = numeros[i];
                     }
+                    // Begin Expr2
+                    System.out.println("mayorPares = " + mayor);
                 }
-                if (mayor != -1) // Begin Expr2
-                System.out.println("El mayor de los PARES es: " + mayor); else // Begin Expr2
-                System.out.println("No se encontraron n\ufffd\ufffdmeros pares.");
                 // Return
                 { if (retOp != null)
                     retOp.send(jrvm.getTimestamp(), (edu.ucdavis.jr.RemoteHandler) null, null);
@@ -233,7 +234,7 @@ return null;
         } catch (Exception JRe) { throw new jrRuntimeError(JRe.toString()); }
     };
     
-    static Op_ext.JRProxyOp JRget_op_mayorImpares_voidTovoid()
+    public static Op_ext.JRProxyOp JRget_op_mayorImpares_voidTovoid()
     {
         return op_mayorImpares_voidTovoid;
     }
@@ -374,7 +375,7 @@ return null;
         } catch (Exception e) { throw new jrRuntimeError(e.toString());}
     }
     
-    static void mayorImparesvoidTovoid(java.lang.Object [] JRargs) {
+    public static void mayorImparesvoidTovoid(java.lang.Object [] JRargs) {
         ((Op_ext_.JRProxyOp)op_mayorImpares_voidTovoid).call(jrvm.getTimestamp(), JRargs);
     }
     private static void mayorImparesvoidTovoid(Op_ext.JRProxyOp retOp, Cap_ext fretOp, edu.ucdavis.jr.RemoteHandler handler, java.lang.Object [] JRargs)
@@ -382,17 +383,14 @@ return null;
         try    {
             {
                 int mayor = -1;
-                JRLoop2: for (int i = 0; i < miArreglo.length; i++) {
-                    if (miArreglo[i] % 2 != 0) {
-                        if (miArreglo[i] > mayor) {
-                            // Begin Expr2
-                            mayor = miArreglo[i];
-                        }
+                JRLoop2: for (int i = 0; i < numeros.length; i++) {
+                    if (i % 2 != 0) {
+                        if (mayor < numeros[i]) // Begin Expr2
+                        mayor = numeros[i];
                     }
+                    // Begin Expr2
+                    System.out.println("mayorImpares = " + mayor);
                 }
-                if (mayor != -1) // Begin Expr2
-                System.out.println("El mayor de los IMPARES es: " + mayor); else // Begin Expr2
-                System.out.println("No se encontraron n\ufffd\ufffdmeros impares.");
                 // Return
                 { if (retOp != null)
                     retOp.send(jrvm.getTimestamp(), (edu.ucdavis.jr.RemoteHandler) null, null);
@@ -436,8 +434,6 @@ return null;
     
     
     public static void main(String[] args) {
-        // Begin Expr2
-        llenarArreglo(miArreglo);
     }
     protected boolean JRcalled = false;
     protected JREjercicio17 jrresref;
