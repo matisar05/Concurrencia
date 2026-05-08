@@ -1,0 +1,41 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.*;
+
+public class Ej5cTp2 {
+    public sem mutex = 1;
+    public Queue<Integer> miCola = new LinkedList<Integer>();
+    public int cantidadConsumidores = 5;
+    public int cantidadProductores = 6;
+
+    // consumidor = pregunta si la lista esta vacia
+    // productor produce indefinidamente
+
+    public process productor ((int i = 0; i < cantidadProductores; i++)) {
+        System.out.println("---Soy el productor:"+i);
+        while (true){
+        P(mutex);
+            Random rand = new Random();
+            int valorProducido= rand.nextInt(100);
+            miCola.offer(valorProducido);
+            System.out.println("Productor:"+i+" agrego el elemento: "+valorProducido);
+        V(mutex);
+        }
+    }
+
+    public process consumidor ((int i = 0; i < cantidadConsumidores; i++)) {
+        System.out.println("Soy el consumidor:"+i);
+        while (true){
+            P(mutex);
+                if (miCola.isEmpty()==false) {
+                int valorSacado = miCola.poll();
+                System.out.println("Soy el consumidor:"+i+" saque el elemento: "+valorSacado);
+                }
+            V(mutex);
+        }
+    }
+
+    public static void main(String[] args) {
+        new ej5c();
+    }
+}

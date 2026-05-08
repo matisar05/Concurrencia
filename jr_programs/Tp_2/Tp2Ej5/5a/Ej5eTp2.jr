@@ -1,0 +1,12 @@
+package jr_programs.Tp_2.Tp2Ej5.5a;
+
+public class Ej5eTp2 {
+    public static int buffer = 0;
+    public static int cantProd = 6;
+    public static int cantCons = 5;
+
+    public process productor ((int i= 1; 1<cantProd i++)){
+        
+    }
+    
+}
