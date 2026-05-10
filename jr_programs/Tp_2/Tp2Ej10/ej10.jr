@@ -1,82 +1,49 @@
 package jr_programs.Tp_2.Tp2Ej10;
 
 public class ej10 {
-
-    // OLD: public boolean ocupada = false;
-    public boolean barberoLibre = true;
-
-    // OLD: public sem clientes = 0;
-    public sem despertar = 0;
-
-    // OLD: public int sillasLibres = 5;
-    public int sillasLibres = 5;
-
-    public sem mutex = 1;
-
-    // OLD: public sem cliespera = 0;
-    public sem llamar = 0;
-
-    public sem corteTerminado = 0;
+    
+public sem clientes = 0;
+public sem mutex = 1;
+public sem cliespera = 0;
+public sem corteTerminado = 0;
+public int sillasLibres = 5;
+public boolean ocupada = false;
 
     public process barbero() {
         while (true) {
-            // OLD: P(clientes);
-            P(despertar);
-
-            System.out.println("Barbero cortando pelo");
-
-            // OLD: System.out.println("Llega el cliente y le corto");
-            // OLD: P(mutex);
-            // OLD: ocupada=false;
-            // OLD:     if (sillasLibres<5){
-            // OLD:         System.out.println("Hay sillas ocupadas, llamo al cliente");
-            // OLD:         V(cliespera);
-            // OLD:         sillasLibres++;
-            // OLD:     }
-            // OLD: V(mutex);
-
-            V(corteTerminado);
-
+            P(clientes); //Barbero durmiendo espero a q me llamen
+            System.out.println("Barbero cortando pelo"); //Me llaman y corto el pelo
+            V(corteTerminado); //Le aviso q termine el corte
+            System.out.println("Ya termine el corte");
             P(mutex);
-            if (sillasLibres < 5) {
-                sillasLibres++;
-                V(llamar);
-                V(mutex);
-            } else {
-                barberoLibre = true;
-                V(mutex);
+            ocupada=false; //Pongo mi silla en desocupada
+            if (sillasLibres<5){ //Solo entra si hay gente esperando
+               System.out.println("Hay sillas ocupadas, llamo al cliente");
+                V(cliespera); //Llamo al cliente que esta esperando
+                sillasLibres++; //Libero una silla
+                ocupada= true;
             }
-        }
+            V(mutex);
     }
+}
 
     public process cliente((int i = 0; i < 10; i++)) {
         P(mutex);
-
-        // OLD: if (!ocupada){
-        if (barberoLibre) {
-            // OLD: System.out.println("Silla libre, me corto el lope");
-            // OLD: ocupada=true;
-            // OLD: V(mutex);
-            // OLD: V(clientes);
-            barberoLibre = false;
+        if (!ocupada){
+            System.out.println("Silla libre, me corto el lope");
+            ocupada=true; //Ocupo yo la silla
             V(mutex);
-            V(despertar);
-            P(corteTerminado);
-            System.out.println("Cliente " + i + " se va");
+            V(clientes); //Le aviso al barbero q me corte
+            P(corteTerminado); //Espero a q termine el corte
         }
-        // OLD: else if (sillasLibres<=5 && sillasLibres>0){
-        else if (sillasLibres > 0) {
-            // OLD: System.out.println("Hay lugar pero tengo q esperar");
-            // OLD: sillasLibres--;
-            // OLD: V(mutex);
-            // OLD: P(cliespera);
-            // OLD: V(clientes);
-            sillasLibres--;
-            V(mutex);
-            P(llamar);
-            V(despertar);
+        else if (sillasLibres>0){
+            System.out.println("Hay lugar pero tengo q esperar");
+            sillasLibres--; //Me siento a esperar solo si hay lugar
+            V(mutex); 
+            P(cliespera); //Me pongo en el semaforo de espera
+            V(clientes); //Ya me toca, le aviso que me corte
             P(corteTerminado);
-            System.out.println("Cliente " + i + " se va");
+            System.out.println("Ya me cortaron el pelo despues de esperar, me voy");
         }
         else {
             System.out.println("No hay lugar me voy");
@@ -84,3 +51,4 @@ public class ej10 {
         }
     }
 }
+

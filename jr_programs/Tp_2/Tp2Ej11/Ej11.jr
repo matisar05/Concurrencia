@@ -5,60 +5,83 @@ import java.util.Random;
 public class Ej11 {
 
     String[] ingredientes = new String[2];
-    int[] espIng = new int[3];
+    int[] espIng = new int[2];
     public static int chef = 1;
     public static int aymorron = 0;
     public static int ayq = 0;
     public static int aysalsa = 0;
     public static int cantpizza = 0;
-    public static int z = 0;
+    int z;
 
     public process chefardo{
         while true {
             Random rand = new Random();
-            int random = rand.nextInt(2);
-            for (int i = 1; i<2; i++){
-            switch (random) {
-                case 0:
-                    ingredientes[i]= "Queso";
-                    espIng[i]= 0;
-                break;
-                case 1:
-                    ingredientes[i]= "Salsa";
-                    espIng[i]= 1;
-                break;
-
-                case 2:
-                    ingredientes[i]= "Morron";
-                    espIng[i]= 2;
-                break;
-            default:
-        }
-        }
+            for (int i = 0; i < 2; i++){
+                int random = rand.nextInt(3);
+                switch (random) {
+                    case 0:
+                        ingredientes[i] = "Queso";
+                        espIng[i] = 0;
+                        break;
+                    case 1:
+                        ingredientes[i] = "Salsa";
+                        espIng[i] = 1;
+                        break;
+                    case 2:
+                        ingredientes[i] = "Morron";
+                        espIng[i] = 2;
+                        break;
+                }
+            }
             System.out.println("Ya estire la masa");
-            System.out.println("Ya puse el ingrediente: " + ingredientes[0]) ;
-            System.out.println("Ya puse el ingrediente: " + ingredientes[1] );
+            System.out.println("Ya puse el ingrediente: " + ingredientes[0]);
+            System.out.println("Ya puse el ingrediente: " + ingredientes[1]);
+
             P(chef);
-            if ((espIng[0]== "Queso") && espIng[1] == "Salsa")
-                z= 2;
-            else if ((espIng[0]== "Salsa") && espIng[1] == "Morron")
-                z=0;
-            else 
-                z=1;
-            V(espIng[z]);
-            cantpizza++;
+            if ((espIng[0] == 0 && espIng[1] == 1) || (espIng[0] == 1 && espIng[1] == 0))
+                z = 2;
+            else if ((espIng[0] == 0 && espIng[1] == 2) || (espIng[0] == 2 && espIng[1] == 0))
+                z = 1;
+            else
+                z = 0;
+
+            switch (z) {
+                case 0: V(ayq); break;
+                case 1: V(aysalsa); break;
+                case 2: V(aymorron); break;
+            }
+        }
     }
-}
 
     public process ayuqueso() {
-
+        while true {
+            P(ayq);
+            System.out.println("Ayudante del queso completo la pizza");
+            cantpizza++;
+            V(chef);
+        }
     }
 
     public process ayumorron() {
-
+        while true {
+            P(aymorron);
+            System.out.println("Ayudante del morron completo la pizza");
+            cantpizza++;
+            V(chef);
+        }
     }
 
     public process ayusalsa() {
+        while true {
+            P(aysalsa);
+            System.out.println("Ayudante de la salsa completo la pizza");
+            cantpizza++;
+            V(chef);
+        }
+    }
+
+    public static void main(String[] args) {
 
     }
 }
+

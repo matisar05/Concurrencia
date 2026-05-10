@@ -1,0 +1,62 @@
+
+import java.util.Random;
+
+public class ej12{
+
+    public sem vulnerable = 0;
+    public sem ataqueTerminado =0;
+    public sem mutex = 1;
+    public int blancas = 0;
+    public int rojas = 0;
+    public boolean ataque= false;
+
+
+    public process organismo {
+        boolean vivo = true;
+        while (vivo){
+            Random rand = new Random();
+            int random = rand.nextInt(10);
+            System.out.println("Random: " + random);
+            if (random == 4){
+                System.out.println("Organismo: Estoy vulnerable");
+                V(vulnerable);
+                System.out.println("Organismo: Esperando a que me ataquen...");
+                P(mutex);
+                if (ataque){
+                    System.out.println("Organismo: Me estan atacando");
+                    P(ataqueTerminado);
+                    System.out.println("Organismo: Me atacaron me mori");
+                    vivo = false;
+                } else { System.out.println("Organismo: Sigo vivo"); }
+                V(mutex);
+            }
+        }
+    }
+
+    public process ataqueBacterias{
+        while (true) {
+        P(vulnerable);
+        P(mutex);
+        Random rand = new Random();
+        blancas = rand.nextInt(5);
+        System.out.println("Random blancas: " + blancas);
+        rojas = rand.nextInt(3);
+        System.out.println("Random rojas: " + rojas);
+        if (blancas == 4 && rojas == 2){
+            ataque=true;
+            V(mutex);
+            System.out.println("Bacterias: Empezando ataque");
+            V(ataqueTerminado);
+            System.out.println("Bacterias: Ataque terminado");
+        }
+        else {System.out.println("Bacterias: Ataque fallido");
+        ataque = false;
+        V(mutex);}
+        }                                              
+    }
+
+    
+    public static void main(String[] args) {
+        new ej12();
+    }
+}

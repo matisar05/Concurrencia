@@ -1,0 +1,34 @@
+/*
+Problema de lectores y escritores: 
+
+Hay un objeto de datos (por ejemplo, un arreglo) que
+es utilizado por varios procesos, unos leen y otros que escriben. Mientras uno escribe,
+ningún otro proceso podrá acceder. Sí se permite a varios procesos leer simultáneamente.
+Implemente soluciones al problema de “lectores / escritores” utilizando semáforos en
+JR en las que:
+    a) Los lectores tienen prioridad.
+    b) Los escritores tienen prioridad.
+    c) Una solución “justa”.
+
+*/
+
+public class ej8{
+
+public int dato = 0;
+public sem mutex = 1;
+public sem escribiendo = 0;
+public boolean puedoLeer = true;
+
+public process leer(){
+    while true{
+        if (puedoLeer){
+             
+        }
+    }
+}
+
+
+    public static void main(String[] args) {
+
+    }
+}
